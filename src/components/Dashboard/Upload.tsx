@@ -1,10 +1,10 @@
-import { Group, Text, rem } from '@mantine/core';
+import { Button, Group, Text, rem } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import {FaFileUpload} from 'react-icons/fa';
 import axios from 'axios';
 import { useLocalStorage } from '@mantine/hooks';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 
 interface Props {
   fileUploaded: ()=>void,
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
+
+  const openRef = useRef<() => void>(null);
 
   const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
   const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
@@ -61,9 +63,9 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
   return (
     <Dropzone 
     style={{
-        backgroundColor: '#F5F5F5', 
         border: '2px dashed #CCCCCC',
         marginLeft: '15px', 
+        height: '350px'
       }}
       onDrop={preSignedUrl}
       onReject={(files) => console.log('rejected files', files)}
@@ -92,15 +94,15 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
 
         <div>
           <Text fw = {700} size="xl" inline>
-            {updateFile?.id ?`${updateFile.fileName} is selected click to update`:'Drag and Drop here'}
+            {updateFile?.id ?`${updateFile.fileName} is selected click to update`:'DRAG AND DROP HERE'}
           </Text>
-          <Text size="xl" inline>
-            Click here to Import files
-          </Text>
-          <Text fs="italic" size="sm" c="dimmed" inline mt={7}>
+          <Text fs="italic" size="lg" c="dimmed" inline mt={7}>
             File should not exceed 10mb
           </Text>
         </div>
+      </Group>
+      <Group justify="center" mt="md">
+        <Button onClick={() => openRef.current?.()}>Select files</Button>
       </Group>
     </Dropzone>
   );

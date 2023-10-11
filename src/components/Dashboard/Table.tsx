@@ -72,7 +72,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
   
 
   return (
-    <Table striped highlightOnHover withTableBorder>
+    <Table striped highlightOnHover withTableBorder style={{marginRight: '15px',marginLeft: '15px', marginBottom: '30px', marginTop: '30px'}}>
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Name</Table.Th>

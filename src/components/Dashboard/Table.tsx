@@ -31,7 +31,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
 
   const process_delete = async (id:string) =>{
 
-    const response=await axios.delete(`http://localhost:5000/api/v1/deletes3File?id=${id}`)
+    const response=await axios.delete(`http://18.221.171.78:5000/api/v1/deletes3File?id=${id}`)
     console.log(response.data)
     console.log(fileUploaded)
     fileUploaded()

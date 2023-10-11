@@ -43,7 +43,7 @@ export function Dashboard() {
 
     const getList = async() => {
         if(value!==''){
-            const res3 = await axios.get(`http://localhost:5000/api/v1/readList?userId=${value}`)
+            const res3 = await axios.get(`http://18.221.171.78:5000/api/v1/readList?userId=${value}`)
             console.log(res3.data)
             const sortedData= res3.data.data.sort((a:any,b:any)=>{
                 return new Date(a.uploadedTime).getTime() - new Date(b.uploadedTime).getTime()

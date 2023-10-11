@@ -22,7 +22,7 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
     files[0].arrayBuffer()
 
     console.log(files[0],files[0].path,files[0].type)
-    const res = await axios.post("http://localhost:5000/api/v1//uploads3File",{
+    const res = await axios.post("http://18.221.171.78:5000/api/v1/uploads3File",{
       "objectKey":`${value}/${files[0].path}`,
       "contentType":files[0].type
     })
@@ -36,7 +36,7 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
 
     if(updateFile?.id){
 
-      const res2 = await axios.put("http://localhost:5000/api/v1/updates3File",{
+      const res2 = await axios.put("http://18.221.171.78:5000/api/v1/updates3File",{
        ...updateFile,
        "filePath":`${value}/${files[0].path}`,
        "fileName": `${files[0].name}`
@@ -46,7 +46,7 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
 
     }else{
 
-      const res2 = await axios.post("http://localhost:5000/api/v1/insertDBdetails",{
+      const res2 = await axios.post("http://18.221.171.78:5000/api/v1/insertDBdetails",{
         "userName":username,
         "userId":value,
         "filePath":`${value}/${files[0].path}`,

@@ -22,6 +22,8 @@ export function Dashboard() {
     const [list,setList] = useState([])
 
     const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
+    const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
+
     
     
     const demoProps = {
@@ -35,6 +37,9 @@ export function Dashboard() {
     
     const logout = () => {
         console.log("logged out")
+        setValue('')
+        setUsername('')
+
         toast.error('Logged out successfully', {
             position: toast.POSITION.TOP_RIGHT
         });

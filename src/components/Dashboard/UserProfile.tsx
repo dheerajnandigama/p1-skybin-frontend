@@ -4,6 +4,8 @@ import { useLocalStorage } from '@mantine/hooks';
 export function Profile() {
 
     const [userName] = useLocalStorage({ key: 'username', defaultValue: '' });
+    const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
+
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder style={{marginLeft: '15px', marginBottom: '30px', marginTop: '30px' , height: '400px'}}>
@@ -17,8 +19,8 @@ export function Profile() {
 
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>{userName}</Text>
-        <Badge color="pink" variant="light">
-          USER
+        <Badge color={value==='546ef019-d04b-4db0-8f81-b93bbb5ae1a7'?'red':'blue'} variant="light">
+          {value==='546ef019-d04b-4db0-8f81-b93bbb5ae1a7'?'ADMIN':'USER'}
         </Badge>
       </Group>
 

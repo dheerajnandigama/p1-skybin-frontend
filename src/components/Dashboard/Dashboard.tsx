@@ -23,6 +23,9 @@ export function Dashboard() {
 
     const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
     const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
+    const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
+
+    const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
 
     
     
@@ -39,6 +42,8 @@ export function Dashboard() {
         console.log("logged out")
         setValue('')
         setUsername('')
+        setFname('')
+        setLname('')
 
         toast.error('Logged out successfully', {
             position: toast.POSITION.TOP_RIGHT

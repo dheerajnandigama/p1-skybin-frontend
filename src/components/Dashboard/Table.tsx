@@ -52,7 +52,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
       <Table.Tr key={element.id}>
         <Table.Td>{element.userName}</Table.Td>
         <Table.Td>{element.uploadedTime}</Table.Td>
-        <Table.Td>{element.modifiedTime}</Table.Td>
+        <Table.Td>{new Date(element.modifiedTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</Table.Td>
         <Table.Td>{element.fileName}</Table.Td>
         <Table.Td>
         <Button variant="outline" rightSection={<FaDownload size={14} />}color="blue" mr="md" onClick={()=>{

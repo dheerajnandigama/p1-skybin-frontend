@@ -15,6 +15,11 @@ export function LogIn({setTabState}:Props) {
     const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
     const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
 
+    const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
+
+    const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
+
+
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -36,9 +41,12 @@ export function LogIn({setTabState}:Props) {
     user.authenticateUser(authDetails, {
         onSuccess: (data) => {
             console.log("onSuccess: ", data);
-            console.log(data.getAccessToken().payload.sub)
+            console.log(data.getIdToken())
+            setFname(data.getIdToken().payload['custom:firstName'])
+            setLname(data.getIdToken().payload['custom:lastName'])
             setValue(data.getAccessToken().payload.sub)
             setUsername(data.getIdToken().payload.email)
+
             toast.success('Logged in successfully', {
                 position: toast.POSITION.TOP_RIGHT
             });

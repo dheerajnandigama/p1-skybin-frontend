@@ -5,6 +5,8 @@ export function Profile() {
 
     const [userName] = useLocalStorage({ key: 'username', defaultValue: '' });
     const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
+    const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
+    const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
 
 
   return (
@@ -18,14 +20,14 @@ export function Profile() {
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>{userName}</Text>
+        <Text fw={500}>{`${fname} ${lname}`}</Text>
         <Badge color={value==='546ef019-d04b-4db0-8f81-b93bbb5ae1a7'?'red':'blue'} variant="light">
           {value==='546ef019-d04b-4db0-8f81-b93bbb5ae1a7'?'ADMIN':'USER'}
         </Badge>
       </Group>
 
       <Text size="sm" c="dimmed">
-        Student at San Jose State University
+        {userName}
       </Text>
 
       <Button variant="light" color="blue" fullWidth mt="md" radius="md">

@@ -3,6 +3,7 @@ import axios from 'axios';
 import fileDownload from 'js-file-download';
 import { Dispatch, SetStateAction } from 'react';
 import { FaDownload,FaEdit,FaStopCircle} from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 
  
@@ -32,6 +33,9 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
   const process_delete = async (id:string) =>{
 
     const response=await axios.delete(`http://18.221.171.78:5000/api/v1/deletes3File?id=${id}`)
+    toast.error('File Deleted', {
+      position: toast.POSITION.TOP_RIGHT
+  });
     console.log(response.data)
     console.log(fileUploaded)
     fileUploaded()
@@ -50,7 +54,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
   if(list.length>0){
     rows=list.map((element) => (
       <Table.Tr key={element.id}>
-        <Table.Td>{element.userName}</Table.Td>
+        <Table.Td>{`${element.firstName} ${element.lastName}`}</Table.Td>
         <Table.Td>{element.uploadedTime}</Table.Td>
         <Table.Td>{new Date(element.modifiedTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</Table.Td>
         <Table.Td>{element.fileName}</Table.Td>

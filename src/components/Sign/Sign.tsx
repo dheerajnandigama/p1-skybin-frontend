@@ -7,7 +7,7 @@ import { useState } from 'react';
 export function Sign() {
   const demoProps = {
     bg: 'var(--mantine-color-blue-light)',
-    h: 350,
+    h: 420,
     mt: 'md',
   }; 
   
@@ -15,7 +15,7 @@ export function Sign() {
  
   return (
     <>
-      <Container size="xs" {...demoProps}>
+      <Container size="xs"  {...demoProps} h={activeTab==='login'?350:450}>
       <Tabs variant='pills' value={activeTab} onChange={setActiveTab} >
       <Tabs.List grow justify='center' >
         <Tabs.Tab value="login" leftSection style={{ marginTop: '15px' }}>

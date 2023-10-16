@@ -1,10 +1,11 @@
 import { Button, Group, Text, rem } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE, MS_EXCEL_MIME_TYPE, MS_POWERPOINT_MIME_TYPE, MS_WORD_MIME_TYPE, PDF_MIME_TYPE } from '@mantine/dropzone';
 import {FaFileUpload} from 'react-icons/fa';
 import axios from 'axios';
 import { useLocalStorage } from '@mantine/hooks';
 import { Dispatch, SetStateAction, useRef } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   fileUploaded: ()=>void,
@@ -18,6 +19,8 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
 
   const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
   const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
+  const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
+  const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
 
   const preSignedUrl = async(files: FileWithPath[]) => {
 
@@ -44,7 +47,11 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
        "fileName": `${files[0].name}`
       })
       console.log(res2.data)
+      toast.info('File Updated', {
+        position: toast.POSITION.TOP_RIGHT
+    });
       setUpdateFile({})
+
 
     }else{
 
@@ -52,8 +59,13 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
         "userName":username,
         "userId":value,
         "filePath":`${value}/${files[0].path}`,
-        "fileName": `${files[0].name}`
+        "fileName": `${files[0].name}`,
+        "firstName": fname,
+        "lastName": lname,
       })
+      toast.success('File Uploaded', {
+        position: toast.POSITION.TOP_RIGHT
+    });
       console.log(res2.data)
     }
 
@@ -65,12 +77,17 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
     style={{
         border: '2px dashed #CCCCCC',
         marginLeft: '15px', 
-        height: '350px'
+        height: '250px'
       }}
       onDrop={preSignedUrl}
-      onReject={(files) => console.log('rejected files', files)}
-      maxSize={3 * 1024 ** 2}
-      accept={IMAGE_MIME_TYPE}
+      onReject={(files) => {
+        console.log('rejected files', files)
+        toast.warning('File size exceeded than 10 MB', {
+          position: toast.POSITION.TOP_RIGHT
+      });
+    }}
+      maxSize={10 * 1024 ** 2}
+      accept={[...IMAGE_MIME_TYPE, ...PDF_MIME_TYPE, ...MS_WORD_MIME_TYPE, ...MS_EXCEL_MIME_TYPE, ...MS_POWERPOINT_MIME_TYPE]}
     >
       <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
         <Dropzone.Accept>
@@ -100,9 +117,11 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
             File should not exceed 10mb
           </Text>
         </div>
-      </Group>
-      <Group justify="center" mt="md">
-        <Button onClick={() => openRef.current?.()}>Select files</Button>
+        <div>
+        <Button onClick={() => {
+          openRef.current?.()
+          }}>Select files</Button>
+        </div>
       </Group>
     </Dropzone>
   );

@@ -99,7 +99,7 @@ export function Dashboard() {
                             <Profile />
                             <BaseDemo fileUploaded={fileUploaded} setUpdateFile={setUpdateFile} updateFile={updateFile}/>
                     </Grid.Col>
-                    <Grid.Col span={8}>
+                    <Grid.Col span={9}>
                         <Demo list={list} fileUploaded={getList} setUpdateFile={setUpdateFile}/>
                     </Grid.Col>
                 </Grid>

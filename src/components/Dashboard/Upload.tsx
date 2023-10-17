@@ -1,10 +1,10 @@
-import { Button, Group, Text, rem } from '@mantine/core';
+import { Button, Group, Modal, Text, Textarea, rem } from '@mantine/core';
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE, MS_EXCEL_MIME_TYPE, MS_POWERPOINT_MIME_TYPE, MS_WORD_MIME_TYPE, PDF_MIME_TYPE } from '@mantine/dropzone';
 import {FaFileUpload} from 'react-icons/fa';
 import axios from 'axios';
-import { useLocalStorage } from '@mantine/hooks';
-import { Dispatch, SetStateAction, useRef } from 'react';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -15,14 +15,18 @@ interface Props {
 
 export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
 
+  const [opendesc, { open, close }] = useDisclosure(false);
+
   const openRef = useRef<() => void>(null);
 
   const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
   const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
   const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
   const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
+  const [files,setNewFile]=useState<FileWithPath[]>([])
+  const [desc, setDesc] = useState('');
 
-  const preSignedUrl = async(files: FileWithPath[]) => {
+  const preSignedUrl = async() => {
 
     files[0].arrayBuffer()
 
@@ -62,6 +66,7 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
         "fileName": `${files[0].name}`,
         "firstName": fname,
         "lastName": lname,
+        "desc": desc,
       })
       toast.success('File Uploaded', {
         position: toast.POSITION.TOP_RIGHT
@@ -72,14 +77,20 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
     fileUploaded()
   }
 
+  
+
   return (
+    <div>
     <Dropzone 
     style={{
         border: '2px dashed #CCCCCC',
         marginLeft: '15px', 
         height: '250px'
       }}
-      onDrop={preSignedUrl}
+      onDrop={(file)=>{
+        open()
+        setNewFile(file)
+      }}
       onReject={(files) => {
         console.log('rejected files', files)
         toast.warning('File size exceeded than 10 MB', {
@@ -123,6 +134,19 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
           }}>Select files</Button>
         </div>
       </Group>
+     
     </Dropzone>
+     <Modal opened={opendesc} onClose={close} title="Add Description">
+     <Textarea
+     label="File Description"
+     placeholder="Enter the File Description"
+     value={desc} onChange={(event) => setDesc(event.currentTarget.value)} 
+   />
+     <Button style={{marginTop:'5px'}} onClick={()=>{
+       close()
+       preSignedUrl()
+     }}>Submit</Button>
+     </Modal>
+     </div>
   );
 }

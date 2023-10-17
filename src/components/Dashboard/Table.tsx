@@ -58,6 +58,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
         <Table.Td>{element.uploadedTime}</Table.Td>
         <Table.Td>{new Date(element.modifiedTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</Table.Td>
         <Table.Td>{element.fileName}</Table.Td>
+        <Table.Td>{element.desc}</Table.Td>
         <Table.Td>
         <Button variant="outline" rightSection={<FaDownload size={14} />}color="blue" mr="md" onClick={()=>{
           processDownload(`https://dcnmc5xxghqrf.cloudfront.net/${element.filePath}`,element.fileName)
@@ -83,6 +84,7 @@ export function Demo({list,fileUploaded,setUpdateFile}:Props) {
           <Table.Th>Uploaded Time</Table.Th>
           <Table.Th>Modified Time</Table.Th>
           <Table.Th>File Name</Table.Th>
+          <Table.Th>Description</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>

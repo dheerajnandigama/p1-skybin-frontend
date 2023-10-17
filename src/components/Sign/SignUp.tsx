@@ -4,6 +4,7 @@ import UserPool from '../../UserPool/UserPool';
 import { CognitoUser, CognitoUserAttribute } from 'amazon-cognito-identity-js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from '@mantine/hooks';
 
 const setCognitoUserAttribute = (attributeKey: string, attributeValue: string) => {
     const data = {
@@ -23,6 +24,13 @@ export function SignUp() {
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+
+    const [value, setValue] = useLocalStorage({ key: 'userid', defaultValue: '' });
+    const [username, setUsername] = useLocalStorage({ key: 'username', defaultValue: '' });
+
+    const [fname, setFname] = useLocalStorage({ key: 'fname', defaultValue: '' });
+
+    const [lname, setLname] = useLocalStorage({ key: 'lname', defaultValue: '' });
 
 
 
@@ -45,6 +53,7 @@ export function SignUp() {
             toast.info('Verification code sent to mail', {
                 position: toast.POSITION.TOP_RIGHT
             });
+
         })
     }
 
@@ -66,6 +75,10 @@ export function SignUp() {
                 toast('Account verified', {
                     position: toast.POSITION.TOP_RIGHT
                 });
+                setFname(firstName)
+            setLname(lastName)
+            setValue(result.userSub)
+            setUsername(email)
                 navigate("/dashboard")
             }
         });
@@ -74,39 +87,44 @@ export function SignUp() {
     return (
         <>
             <Container size="xs" >
-            <TextInput
-                    label="First Name"
-                    placeholder="Enter your first name"
-                    required
-                    value={firstName}
-                    onChange={(event) => setFirstName(event.target.value)}
-                    mt='md'
-                />
-                <TextInput
-                    label="Last Name"
-                    placeholder="Enter your last name"
-                    required
-                    value={lastName}
-                    onChange={(event) => setLastName(event.target.value)}
-                    mt='md'
-                />
-                <TextInput
-                    label="Email: "
-                    placeholder="Enter your email"
-                    required
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    mt='md'
-                />
+                {!clicked && 
+                    <>
+                    <TextInput
+                        label="First Name"
+                        placeholder="Enter your first name"
+                        required
+                        value={firstName}
+                        onChange={(event) => setFirstName(event.target.value)}
+                        mt='md'
+                    />
+                    <TextInput
+                        label="Last Name"
+                        placeholder="Enter your last name"
+                        required
+                        value={lastName}
+                        onChange={(event) => setLastName(event.target.value)}
+                        mt='md'
+                    />
+                    <TextInput
+                        label="Email: "
+                        placeholder="Enter your email"
+                        required
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        mt='md'
+                    />
+                    
+                    <PasswordInput
+                        label="Password:"
+                        placeholder="Enter your password"
+                        required
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        mt='md'
+                    />
+                    </>
                 
-                <PasswordInput
-                    label="Password:"
-                    placeholder="Enter your password"
-                    required
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    mt='md'
-                />
+                }
                 {
                     clicked && <Text size="xs" mt='md'>Enter the 6-digit verification code </Text>
                 }

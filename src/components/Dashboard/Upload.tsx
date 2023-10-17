@@ -48,7 +48,8 @@ export function BaseDemo({fileUploaded,setUpdateFile,updateFile}: Props) {
       const res2 = await axios.put("http://18.221.171.78:5000/api/v1/updates3File",{
        ...updateFile,
        "filePath":`${value}/${files[0].path}`,
-       "fileName": `${files[0].name}`
+       "fileName": `${files[0].name}`,
+       "desc": desc
       })
       console.log(res2.data)
       toast.info('File Updated', {
